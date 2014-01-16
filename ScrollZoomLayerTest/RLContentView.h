@@ -13,4 +13,5 @@
 - (id)initWithImage:(NSImage *)image;
 
 @property (nonatomic, strong) IBOutlet NSScrollView *scrollView;
+@property (nonatomic, assign) CGFloat zoom;
 @end

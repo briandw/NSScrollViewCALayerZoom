@@ -10,6 +10,7 @@
 
 @implementation RLClipView
 
+
 - (NSRect)constrainBoundsRect:(NSRect)proposedBounds
 {
     NSRect docRect = [self.documentView frame];

@@ -16,7 +16,7 @@
 {
     // Insert code here to initialize your application
     
-    
+    /*
     // theWindow is an IBOutlet that is connected to a window
     // theImage is assumed to be declared and populated already
     // determine the image size as a rectangle
@@ -59,7 +59,7 @@
     // this replaces the existing contentView and retains
     // the scrollView, so we can release it now
     [self.window setContentView:scrollView];
-
+*/
     // display the window
     [self.window makeKeyAndOrderFront:nil];
 }
