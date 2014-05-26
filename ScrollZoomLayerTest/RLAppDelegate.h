@@ -10,6 +10,6 @@
 
 @interface RLAppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
+@property (nonatomic) IBOutlet NSWindow *window;
 
 @end

@@ -8,10 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface RLContentView : NSView
+@interface RLDocumentView : NSView
 
 - (id)initWithImage:(NSImage *)image;
 
 @property (nonatomic, strong) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, assign) CGFloat zoom;
+- (void)contentBoundsDidChange:(NSNotification *)notification;
 @end

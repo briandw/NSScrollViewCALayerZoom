@@ -7,29 +7,23 @@
 //
 
 #import "RLAppDelegate.h"
-#import "RLContentView.h"
+#import "RLDocumentView.h"
 #import "RLClipView.h"
 
 @implementation RLAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    NSRect frame = NSMakeRect(512, 1024, 800, 600);
+    self.window = [[NSWindow alloc] initWithContentRect:frame
+                                              styleMask:NSResizableWindowMask | NSTitledWindowMask | NSClosableWindowMask
+                                                backing:NSBackingStoreBuffered
+                                                  defer:NO];
     
-    /*
-    // theWindow is an IBOutlet that is connected to a window
-    // theImage is assumed to be declared and populated already
-    // determine the image size as a rectangle
-    // theImage is assumed to be declared elsewhere
-    
-    NSImage *image = [NSImage imageNamed:@"test"];
-    RLContentView *theImageView = [[RLContentView alloc] initWithImage:image];
-    
-       // create the scroll view so that it fills the entire window
+    // create the scroll view so that it fills the entire window
     // to do that we'll grab the frame of the window's contentView
     // theWindow is an outlet connected to a window instance in Interface Builder
-    NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:
-                                [[self.window contentView] frame]];
+    NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:frame];
     scrollView.allowsMagnification = YES;
     // the scroll view should have both horizontal
     // and vertical scrollers
@@ -40,27 +34,27 @@
     // set the autoresizing mask so that the scroll view will
     // resize with the window
     [scrollView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    // set theImageView as the documentView of the scroll view
+    [scrollView.contentView setPostsBoundsChangedNotifications:YES];
     
-    RLClipView *clipView = [[RLClipView alloc] initWithFrame:theImageView.frame];
+    RLClipView *clipView = [[RLClipView alloc] initWithFrame:frame];
     [scrollView setContentView:clipView];
-    [scrollView setDocumentView:theImageView];
-    
-    NSRect frame = scrollView.frame;
-    [scrollView centerScanRect:frame];
-    scrollView.frame = frame;
-    
-    theImageView.frame = [scrollView centerScanRect:theImageView.frame];
-    
-    // setting the documentView retains theImageView
-    // so we can now release the imageView
     
     // set the scrollView as the window's contentView
     // this replaces the existing contentView and retains
     // the scrollView, so we can release it now
     [self.window setContentView:scrollView];
-*/
-    // display the window
+    
+    NSImage *image = [NSImage imageNamed:@"test"];
+    CGRect imageRect = CGRectZero;
+    imageRect.size = image.size;
+    
+    
+    RLDocumentView *documentView = [[RLDocumentView alloc] initWithImage:image];
+    documentView.scrollView = scrollView;
+    [scrollView setDocumentView:documentView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:documentView selector:@selector(contentBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:scrollView.contentView];
+    
     [self.window makeKeyAndOrderFront:nil];
 }
 

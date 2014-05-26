@@ -20,7 +20,7 @@
 		D3DA78511824107100FE9EBD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D3DA784F1824107100FE9EBD /* InfoPlist.strings */; };
 		D3DA78531824107100FE9EBD /* ScrollZoomLayerTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DA78521824107100FE9EBD /* ScrollZoomLayerTestTests.m */; };
 		D3DA785D1824133D00FE9EBD /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3DA785C1824133D00FE9EBD /* test.jpg */; };
-		D3DA7860182418B700FE9EBD /* RLContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DA785F182418B700FE9EBD /* RLContentView.m */; };
+		D3DA7860182418B700FE9EBD /* RLDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DA785F182418B700FE9EBD /* RLDocumentView.m */; };
 		D3DA786218241B9400FE9EBD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA786118241B9400FE9EBD /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,8 +57,8 @@
 		D3DA78501824107100FE9EBD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D3DA78521824107100FE9EBD /* ScrollZoomLayerTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollZoomLayerTestTests.m; sourceTree = "<group>"; };
 		D3DA785C1824133D00FE9EBD /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpg; sourceTree = "<group>"; };
-		D3DA785E182418B700FE9EBD /* RLContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLContentView.h; sourceTree = "<group>"; };
-		D3DA785F182418B700FE9EBD /* RLContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLContentView.m; sourceTree = "<group>"; };
+		D3DA785E182418B700FE9EBD /* RLDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLDocumentView.h; sourceTree = "<group>"; };
+		D3DA785F182418B700FE9EBD /* RLDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLDocumentView.m; sourceTree = "<group>"; };
 		D3DA786118241B9400FE9EBD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -131,8 +131,8 @@
 				D3DA783B1824107100FE9EBD /* RLAppDelegate.m */,
 				D33A5D32182C3DCE00530E4F /* RLClipView.h */,
 				D33A5D33182C3DCE00530E4F /* RLClipView.m */,
-				D3DA785E182418B700FE9EBD /* RLContentView.h */,
-				D3DA785F182418B700FE9EBD /* RLContentView.m */,
+				D3DA785E182418B700FE9EBD /* RLDocumentView.h */,
+				D3DA785F182418B700FE9EBD /* RLDocumentView.m */,
 				D3DA783D1824107100FE9EBD /* MainMenu.xib */,
 				D3DA78401824107100FE9EBD /* Images.xcassets */,
 				D3DA785C1824133D00FE9EBD /* test.jpg */,
@@ -272,7 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D33A5D34182C3DCE00530E4F /* RLClipView.m in Sources */,
-				D3DA7860182418B700FE9EBD /* RLContentView.m in Sources */,
+				D3DA7860182418B700FE9EBD /* RLDocumentView.m in Sources */,
 				D3DA783C1824107100FE9EBD /* RLAppDelegate.m in Sources */,
 				D3DA78351824107000FE9EBD /* main.m in Sources */,
 			);
