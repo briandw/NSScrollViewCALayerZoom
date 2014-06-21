@@ -14,7 +14,7 @@
     CGRect _naturalSize;
 }
 
-@property NSMutableDictionary *rects;
+@property NSMutableArray *widgets;
 @end
 
 @implementation RLDocumentView
@@ -45,23 +45,21 @@
         // create the image view with a frame the size of the image
         self.layer.contents = (__bridge id)([image CGImageForProposedRect:&_naturalSize context:[NSGraphicsContext currentContext] hints:nil]);
         
-        self.rects = [NSMutableDictionary dictionary];
+        self.widgets = [NSMutableArray array];
         
-        CGSize stride = CGSizeMake(_naturalSize.size.width/100.0, _naturalSize.size.height/100.0);
-        for (int i = 0; i < 100; i++)
+        CGSize stride = CGSizeMake(100, 100);
+        for (int i = 0; i < 10; i++)
         {
-            NSString *widgetkey = [NSString stringWithFormat:@"%i", i];
-            CGRect rect = CGRectMake(i*stride.width, i*stride.height, stride.width, stride.height);
-            [self.rects setObject:[NSValue valueWithRect:rect] forKey:widgetkey];
-            
+            CGRect rect = CGRectMake(i*stride.width, i*stride.height, 10, 10);
             CALayer *rectLayer = [CALayer layer];
-            rectLayer.bounds = CGRectMake(0, 0, stride.width, stride.height);
+            rectLayer.bounds = CGRectMake(0, 0,10, 10);
             rectLayer.position = rect.origin;
-            [rectLayer setValue:widgetkey forKey:@"widgetId"];
+            [rectLayer setValue:[NSValue valueWithRect:rect] forKey:@"rectValue"];
             rectLayer.anchorPoint = CGPointZero;
             rectLayer.borderColor = [NSColor redColor].CGColor;
             rectLayer.borderWidth = 1.0;
             [self.layer addSublayer:rectLayer];
+            [self.widgets addObject:rectLayer];
         }
     }
     
@@ -70,8 +68,14 @@
 
 - (void)contentBoundsDidChange:(NSNotification *)notification
 {
+    NSScrollView *scrollView = [self enclosingScrollView];
+    NSView *contentView = scrollView.contentView;
+    CGRect contentBounds = contentView.bounds;
+    
+    NSLog(@"%0.2f, %0.2f, %0.2f, %0.2f,", contentBounds.origin.x, contentBounds.origin.y, contentBounds.size.width, contentBounds.size.height);
+
+    
     CGRect clipViewBounds = self.layer.bounds;
-   // NSLog(@"%0.2f, %0.2f, %0.2f, %0.2f,", clipViewBounds.origin.x, clipViewBounds.origin.y, clipViewBounds.size.width, clipViewBounds.size.height);
     
     CGFloat zoom = clipViewBounds.size.width / _naturalSize.size.width;
     NSLog(@"%f",zoom);
@@ -86,19 +90,17 @@
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     
     //NSLog(@"f%0.2f, %0.2f", xScale, yScale);
-    for (CALayer *subLayer in self.layer.sublayers)
+    for (CALayer *widget in self.widgets)
     {
-        NSString *widgetKey = [subLayer valueForKey:@"widgetId"];
-        CGRect rect = [[self.rects objectForKey:widgetKey] rectValue];
-        
+        CGRect rect = [[widget valueForKey:@"rectValue"] rectValue];
         rect.origin.x *= _zoom;
         rect.origin.y *= _zoom;
         rect.size.width *= _zoom;
         rect.size.height *= _zoom;
         
-        subLayer.position = rect.origin;
+        widget.position = rect.origin;
         rect.origin = CGPointZero;
-        subLayer.bounds = rect;
+        widget.bounds = rect;
     }
     
     [CATransaction commit];
@@ -126,13 +128,24 @@
 
 - (void)mouseDown:(NSEvent *)event
 {
-    NSScrollView *scrollView = [self enclosingScrollView];
-    NSClipView *clipView = [scrollView contentView];
-    
     NSPoint windowPoint = [event locationInWindow];
     NSPoint loc = [self convertPoint:windowPoint fromView:nil];
-    NSLog(@"nsview point %0.2f, %0.2f", loc.x, loc.y);
+    //NSLog(@"nsview point %0.2f, %0.2f", loc.x, loc.y);
     
+    int i = 0;
+    for (NSValue *widget in self.widgets)
+    {
+        CGRect rect = [[widget valueForKey:@"rectValue"] rectValue];
+        if (CGRectContainsPoint(rect, loc))
+        {
+            NSLog(@"Hit %i!", i);
+        }
+        i++;
+    }
+/*
+
+    NSScrollView *scrollView = [self enclosingScrollView];
+    NSClipView *clipView = [scrollView contentView];
     loc = [clipView convertPoint:windowPoint fromView:nil];
     NSLog(@"clipview point %0.2f, %0.2f", loc.x, loc.y);
     
@@ -145,7 +158,7 @@
     visibleRect.origin.y *= _zoom;
     
     NSLog(@"center point %0.2f, %0.2f", CGRectGetMinX(visibleRect), CGRectGetMidY(visibleRect));
-    
+   */
     //[self scrollPoint:loc];
 }
 
@@ -154,15 +167,32 @@
     return proposedVisibleRect;
 }
 
+#define ZOOM_FACTOR 1.5
 - (IBAction)zoomOut:(id)sender
 {
-    [self setZoom:self.zoom*0.5];
+    NSScrollView *scrollView = [self enclosingScrollView];
+    NSView *contentView = scrollView.contentView;
+    CGRect contentBounds = contentView.bounds;
+    contentBounds.size.width *= ZOOM_FACTOR;
+    contentBounds.size.height *= ZOOM_FACTOR;
+    contentBounds.origin.x /= ZOOM_FACTOR;
+    contentBounds.origin.y /= ZOOM_FACTOR;
+    scrollView.contentView.bounds = contentBounds;
 }
 
 - (IBAction)zoomIn:(id)sender
 {
-    [self setZoom:self.zoom*2.0];
+    NSScrollView *scrollView = [self enclosingScrollView];
+    NSView *contentView = scrollView.contentView;
+    CGRect contentBounds = contentView.bounds;
+    contentBounds.size.width /= ZOOM_FACTOR;
+    contentBounds.size.height /= ZOOM_FACTOR;
+    contentBounds.origin.x *= ZOOM_FACTOR;
+    contentBounds.origin.y *= ZOOM_FACTOR;
+    scrollView.contentView.bounds = contentBounds;
 }
+
+
 
 /*
  float zoomFactor = 1.3;

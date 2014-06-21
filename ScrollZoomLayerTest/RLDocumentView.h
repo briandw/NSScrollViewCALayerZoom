@@ -14,5 +14,9 @@
 
 @property (nonatomic, strong) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, assign) CGFloat zoom;
+
 - (void)contentBoundsDidChange:(NSNotification *)notification;
+- (IBAction)zoomOut:(id)sender;
+- (IBAction)zoomIn:(id)sender;
+
 @end

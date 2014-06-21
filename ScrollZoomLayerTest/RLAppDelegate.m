@@ -10,6 +10,12 @@
 #import "RLDocumentView.h"
 #import "RLClipView.h"
 
+@interface RLAppDelegate()
+{
+    RLDocumentView *documentView;
+}
+@end
+
 @implementation RLAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -49,13 +55,23 @@
     imageRect.size = image.size;
     
     
-    RLDocumentView *documentView = [[RLDocumentView alloc] initWithImage:image];
+    documentView = [[RLDocumentView alloc] initWithImage:image];
     documentView.scrollView = scrollView;
     [scrollView setDocumentView:documentView];
     
     [[NSNotificationCenter defaultCenter] addObserver:documentView selector:@selector(contentBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:scrollView.contentView];
     
     [self.window makeKeyAndOrderFront:nil];
+}
+
+- (IBAction)zoomOut:(id)sender
+{
+    [documentView zoomOut:sender];
+}
+
+- (IBAction)zoomIn:(id)sender
+{
+    [documentView zoomIn:sender];
 }
 
 @end
